@@ -2,25 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css"/>
     <title>Darning Tutorial</title>
-    <style>
-    	* { padding: 0; margin: 0; }
-      body {display: flex; flex-direction: column; align-items: flex-center;}
-    	canvas { background: #c7adba; display: block; margin: 0 auto; }
-      header { font-family: "Arial"; font-size: 30px; display: flex; align-self: center; padding: 5px;}
-      p { font-family: "Arial"; font-size: 12px; text-align: left; padding: 5px;}
-      div { margin: auto; width: 650px; align-items: flex-start;}
-    </style>
 </head>
 <body>
 <header> Darning Tutorial </header>
-<div>
+<div class="items-container">
+  <canvas id="myCanvas" width="400" height="400"></canvas>
+  <div class="text-container">
 <p>If you know how to darn, you can fix your favourite socks instead of putting them in the garbage, and that makes you feel like one million dollars.</p>
 <p>To darn, you need to have a darning needle and emroidery thread, yarn, or sashiko thread You alse need to put something under the fabric for structural integrity (and stop yourself from sewing it to the fabric on the other side!). If the fabric you are fixing lies pretty flat (like the front of a shirt), you can just put a piece of card stock paper under it while you work. If the fabric will curve (like the heel of a sock), you need a slighty rounded surface, light a lightbulb or darning egg/mushroom. This will stop your weave from being too tight and uncomfortable</p>
 <p>But you don't need any supplies to practice on this page!</p>
 </div>
-<canvas id="myCanvas" width="400" height="400"></canvas>
-
+</div>
 <script>
   const canvas = document.getElementById("myCanvas");
   const ctx = canvas.getContext("2d");
