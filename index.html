@@ -13,8 +13,8 @@
   <canvas id="myCanvas" width="400" height="400"></canvas>
   <div class="text-container">
 <p>If you know how to darn, you can fix your favourite socks instead of putting them in the garbage, and that makes you feel like one million dollars.</p>
-<p>To darn in real life, you need to have a darning needle and emroidery thread, yarn, or sashiko thread. </p>
-<p>You also need to put something under the fabric for structural integrity (and stop yourself from sewing it to the fabric on the other side!). If the fabric you are fixing lies pretty flat (like the front of a shirt), you can just put a piece of card stock paper under it while you work. If the fabric will curve (a sock, for example), you need a slighty rounded surface, like a lightbulb or darning egg/mushroom. This will stop your weave from being too tight and uncomfortable</p>
+<p>To darn in real life, you need to have a darning needle and embroidery thread, yarn, or sashiko thread. </p>
+<p>You also need to put something under the fabric for structural integrity (and stop yourself from sewing it to the fabric on the other side!). If the fabric you are fixing lies pretty flat (like the front of a shirt), you can just put a piece of paper under it while you work (a postcard or whatever). If the fabric will curve (a sock, for example), you need a slighty rounded surface, like a lightbulb or darning egg/mushroom. This will stop your weave from being too tight and uncomfortable</p>
 <p>But you don't need any supplies to practice on this page! You just need to click click click!</p>
 </div>
 </div>
@@ -26,6 +26,7 @@
   let needleWidth = 7;
   let needleHeight = 60;
   let needleOrientation = "north";
+  let makeStitch;
 
   //needle rotation
   document.addEventListener("keydown", keyDownHandler, false);
@@ -34,12 +35,12 @@
   function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
       needleOrientation = "east";
+      needleWidth = -60;
+      needleHeight = -7; 
+    } else if (e.key == "Left" || e.key == "ArrowLeft") {
+      needleOrientation = "west"; 
       needleWidth = 60;
       needleHeight = 7;
-    } else if (e.key == "Left" || e.key == "ArrowLeft") {
-      needleOrientation = "west";
-      needleWidth = -60;
-      needleHeight = -7;  
     } else if (e.key == "Up" || e.key == "ArrowUp") {
       needleOrientation = "north";
       needleWidth = 7;
@@ -60,6 +61,26 @@
     if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
       needleX = relativeX;
       needleY = relativeY;
+    }
+  }
+
+  //sewing action
+  document.addEventListener('mousedown', sewStitch);
+
+  function sewStitch(e) {
+    let relativeX = e.clientX - canvas.offsetLeft;
+    let relativeY = e.clientY - canvas.offsetLeft;
+    if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
+      if (makeStitch === undefined) {
+        makeStitch = false;
+        console.log("makeStitch =", makeStitch)
+      } else if (makeStitch === false) {
+        makeStitch = true;
+        console.log("makeStitch =", makeStitch)
+      } else if (makeStitch === true) {
+        makeStitch = false;
+        console.log("makeStitch =", makeStitch)
+      }
     }
   }
 
