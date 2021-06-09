@@ -9,6 +9,7 @@ body {
 
 canvas { 
   background: #c7adba; 
+  cursor: none;
 }
 
 header { 
