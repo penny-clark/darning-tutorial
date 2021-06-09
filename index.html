@@ -14,8 +14,8 @@
   <div class="text-container">
 <p>If you know how to darn, you can fix your favourite socks instead of putting them in the garbage, and that makes you feel like one million dollars.</p>
 <p>To darn in real life, you need to have a darning needle and emroidery thread, yarn, or sashiko thread. </p>
-<p>You also need to put something under the fabric for structural integrity (and stop yourself from sewing it to the fabric on the other side!). If the fabric you are fixing lies pretty flat (like the front of a shirt), you can just put a piece of card stock paper under it while you work. If the fabric will curve (like the heel of a sock), you need a slighty rounded surface, light a lightbulb or darning egg/mushroom. This will stop your weave from being too tight and uncomfortable</p>
-<p>But you don't need any supplies to practice on this page!</p>
+<p>You also need to put something under the fabric for structural integrity (and stop yourself from sewing it to the fabric on the other side!). If the fabric you are fixing lies pretty flat (like the front of a shirt), you can just put a piece of card stock paper under it while you work. If the fabric will curve (a sock, for example), you need a slighty rounded surface, like a lightbulb or darning egg/mushroom. This will stop your weave from being too tight and uncomfortable</p>
+<p>But you don't need any supplies to practice on this page! You just need to click click click!</p>
 </div>
 </div>
 <script>
@@ -39,8 +39,7 @@
     } else if (e.key == "Left" || e.key == "ArrowLeft") {
       needleOrientation = "west";
       needleWidth = -60;
-      needleHeight = -7;
-        
+      needleHeight = -7;  
     } else if (e.key == "Up" || e.key == "ArrowUp") {
       needleOrientation = "north";
       needleWidth = 7;
@@ -81,11 +80,21 @@
     ctx.closePath();
   }
 
+  function drawThread() {
+    ctx.beginPath();
+    ctx.rect(needleX, needleY + needleHeight, needleWidth, needleWidth);
+    ctx.fillStyle = "#4ecf8c";
+    ctx.fill();
+    ctx.closePath();
+
+  }
+
   //rendering
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawRip();
     drawNeedle();
+    drawThread();
   }
   let interval = setInterval(draw, 9);
   draw();
@@ -94,7 +103,7 @@
 <br>
 <div>
   <p><b>INFO</b></p>
-  <p> This tutorial was built by Penny Clark. It uses the html canvas element to provide interactive darning instructions.</p>
+  <p> This tutorial was built by Penny Clark. It uses the HTML Canvas element to provide interactive darning instructions.</p>
   </div>
 </body>
 </html>
