@@ -58,8 +58,8 @@
     let relativeX = e.clientX - canvas.offsetLeft;
     let relativeY = e.clientY - canvas.offsetLeft;
     if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
-      needleX = relativeX - needleWidth /2;
-      needleY = relativeY - needleHeight;
+      needleX = relativeX;
+      needleY = relativeY;
     }
   }
 
@@ -82,7 +82,12 @@
 
   function drawThread() {
     ctx.beginPath();
-    ctx.rect(needleX, needleY + needleHeight, needleWidth, needleWidth);
+    if (needleOrientation === "north" || needleOrientation === "south") {
+      ctx.rect(needleX, needleY + needleHeight, needleWidth, needleWidth *2);
+    } else {
+      ctx.rect(needleX + needleWidth, needleY, needleHeight * 2, needleHeight);
+      
+    }
     ctx.fillStyle = "#4ecf8c";
     ctx.fill();
     ctx.closePath();
