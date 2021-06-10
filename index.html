@@ -167,9 +167,11 @@
     if (makeStitch === true || makeStitch === false) {
       drawSewingIndicator();
     }
+    window.requestAnimationFrame(draw);
   }
-  let interval = setInterval(draw, 9);
-  draw();
+  // let interval = setInterval(draw, 9);
+  // draw();
+  window.requestAnimationFrame(draw);
 </script>
 <br>
 <br>
