@@ -28,7 +28,7 @@
   let needleOrientation = "north";
   
   //determines whether or not to draw a new stitch
-  let makeStitch;
+  let stitchVisible;
    //thread action
    const stitches = [];
     let stitchObj = {};
@@ -60,7 +60,7 @@
       stitches.pop();
     //stop sewing
     } else if (e.key == "Spacebar" || e.key == " ") {
-      makeStitch = undefined
+      stitchVisible = undefined
     }
 
   }
@@ -84,18 +84,23 @@
     let relativeX = e.clientX - canvas.offsetLeft;
     let relativeY = e.clientY - canvas.offsetLeft;
     if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
-      if (makeStitch === undefined) {
-        makeStitch = false;
-      } else if (makeStitch === false) {
+      if (stitchVisible === undefined) {
+        stitchVisible = false;
+      } else if (stitchVisible === false) {
         stitchObj.x = relativeX;
         stitchObj.y = relativeY;
-        makeStitch = true;
-      } else if (makeStitch === true) {
-        stitchObj.h = relativeY - stitchObj.y;
-        stitchObj.w = needleWidth;
+        stitchVisible = true;
+      } else if (stitchVisible === true) {
+        if (needleOrientation === "south" || needleOrientation === "north") {
+          stitchObj.h = relativeY - stitchObj.y;
+          stitchObj.w = needleWidth;
+        } else if (needleOrientation === "east" || needleOrientation === "west") {
+          stitchObj.h = needleHeight;
+          stitchObj.w = relativeX - stitchObj.x;
+        }
         stitches.push(stitchObj);
         stitchObj = {};
-        makeStitch = false;
+        stitchVisible = false;
       }
     }
   }
@@ -111,7 +116,7 @@
 
   function drawNeedle() {
     ctx.beginPath();
-    if (makeStitch === false) {
+    if (stitchVisible === false) {
       ctx.rect(needleX, needleY, needleWidth, 7);
       ctx.fillStyle = "#fcba03";
     } else {
@@ -161,10 +166,10 @@
     drawRip();
     drawStitches();
     drawNeedle();
-    if (makeStitch === true || makeStitch === undefined) {
+    if (stitchVisible === true || stitchVisible === undefined) {
     drawThread();
     }
-    if (makeStitch === true || makeStitch === false) {
+    if (stitchVisible === true || stitchVisible === false) {
       drawSewingIndicator();
     }
     window.requestAnimationFrame(draw);
