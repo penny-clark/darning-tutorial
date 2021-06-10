@@ -149,6 +149,12 @@
     })
   }
 
+  function drawSewingIndicator() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("Sewing (press spacebar to stop)", 10, 20)
+  }
+
   //rendering
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -157,6 +163,9 @@
     drawNeedle();
     if (makeStitch === true || makeStitch === undefined) {
     drawThread();
+    }
+    if (makeStitch === true || makeStitch === false) {
+      drawSewingIndicator();
     }
   }
   let interval = setInterval(draw, 9);
