@@ -29,12 +29,22 @@
   
   //determines whether or not to draw a new stitch
   let stitchVisible;
-   //thread action
-   const stitches = [];
-    let stitchObj = {};
+  
+  //thread action
+  const stitches = [];
+  let stitchObj = {};
 
-  let threadColour = "#4ecf8c";
-
+  //thread colour panel vars
+  let threadOption1 = "#4ecf8c";
+  let threadOption2 = "#4570bf";
+  let threadOption3 = "#ff2b5a";
+  let currentThreadColour = threadOption1;
+  const colourOptPosX = 15;
+  const colourOpt1Y = 60;
+  const colourOpt2Y = 85;
+  const colourOpt3Y = 110;
+  const colourOptRadius = 10;
+  
   //needle rotation
   document.addEventListener("keydown", keyDownHandler, false);
 
@@ -61,6 +71,15 @@
     //stop sewing
     } else if (e.key == "Spacebar" || e.key == " ") {
       stitchVisible = undefined
+    //change thread colour by key
+    } else if (e.key == "Enter") {
+      if (currentThreadColour === threadOption1) {
+        currentThreadColour = threadOption2
+      } else if (currentThreadColour === threadOption2) {
+        currentThreadColour = threadOption3
+      } else if (currentThreadColour === threadOption3) {
+        currentThreadColour = threadOption1
+      }
     }
 
   }
@@ -71,19 +90,34 @@
   function mouseMoveHandler(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
     let relativeY = e.clientY - canvas.offsetLeft;
-    if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
+    if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 && relativeY < canvas.height)) {
       needleX = relativeX;
       needleY = relativeY;
     }
   }
 
   //sewing action
-  document.addEventListener('mousedown', sewStitch);
+  document.addEventListener('mousedown', clickActions);
 
-  function sewStitch(e) {
+  function clickActions(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
     let relativeY = e.clientY - canvas.offsetLeft;
-    if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
+    
+    //mouse click thread colour choosing
+    if ((relativeX > 0 && relativeX < colourOptPosX + colourOptRadius) && (relativeY > colourOpt1Y - colourOptRadius && relativeY < colourOpt3Y + colourOptRadius)) {
+      if ((relativeY >= colourOpt1Y - colourOptRadius) && (relativeY <= colourOpt1Y + colourOptRadius)) {
+        stitchVisible = undefined;
+        currentThreadColour = threadOption1;
+      } else if ((relativeY >= colourOpt2Y - colourOptRadius) && (relativeY <= colourOpt2Y + colourOptRadius)) {
+        stitchVisible = undefined;  
+        currentThreadColour = threadOption2;
+      } else if ((relativeY >= colourOpt3Y - colourOptRadius) && (relativeY <= colourOpt3Y + colourOptRadius)) {
+        stitchVisible = undefined; 
+        currentThreadColour = threadOption3;
+      }
+
+    //sewing click controls
+    } else if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
       if (stitchVisible === undefined) {
         stitchVisible = false;
       } else if (stitchVisible === false) {
@@ -108,7 +142,7 @@
   //shapes 
   function drawRip() {
     ctx.beginPath();
-    ctx.rect(200, 200, 70, 80);
+    ctx.rect(155, 165, 90, 80);
     ctx.fillStyle = "#c7adba";
     ctx.fill();
     ctx.closePath();
@@ -116,14 +150,20 @@
 
   function drawNeedle() {
     ctx.beginPath();
+    //needle under cloth view
     if (stitchVisible === false) {
-      if (needleOrientation === "north" || needleOrientation === "south") {
+      if (needleOrientation === "north") {
         ctx.rect(needleX, needleY, needleWidth, 7);
-      } else {
-        ctx.rect(needleX, needleY, needleHeight, 7)
+      } else if (needleOrientation === "south") {
+        ctx.rect(needleX, needleY, needleWidth, -7);
+      } else if (needleOrientation === "east") {
+        ctx.rect(needleX, needleY, -7, needleHeight)
+      } else if (needleOrientation === "west") {
+        ctx.rect(needleX, needleY, 7, needleHeight)
       }
       ctx.fillStyle = "#fcba03";
     } else {
+      //needle above cloth view
       ctx.rect(needleX, needleY, needleWidth, needleHeight);
       ctx.fillStyle = "#696868";
     }
@@ -139,7 +179,7 @@
       ctx.rect(needleX + needleWidth, needleY, needleHeight * 2, needleHeight);
       
     }
-    ctx.fillStyle = threadColour;
+    ctx.fillStyle = currentThreadColour;
     ctx.fill();
     ctx.closePath();
   }
@@ -147,7 +187,7 @@
   function drawStitch(stitch) {
     ctx.beginPath();
     ctx.rect(stitch.x, stitch.y, stitch.w, stitch.h);
-    ctx.fillStyle = threadColour;
+    ctx.fillStyle = currentThreadColour;
     ctx.fill();
     ctx.closePath();
   }
@@ -158,10 +198,44 @@
     })
   }
 
+  //side panel objects 
+
+  //user info messages 
   function drawSewingIndicator() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#ffffff";
     ctx.fillText("Sewing (press spacebar to stop)", 10, 20)
+  }
+
+  function drawUndoInfo() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("Press delete key to undo a stitch", 10, 40)
+  }
+
+  //other color options
+  function drawColourOption1() {
+    ctx.beginPath();
+    ctx.arc(colourOptPosX, colourOpt1Y, colourOptRadius, 0, Math.PI*2);
+    ctx.fillStyle = threadOption1;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function drawColourOption2() {
+    ctx.beginPath();
+    ctx.arc(colourOptPosX, colourOpt2Y, colourOptRadius, 0, Math.PI*2);
+    ctx.fillStyle = threadOption2;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function drawColourOption3() {
+    ctx.beginPath();
+    ctx.arc(colourOptPosX, colourOpt3Y, colourOptRadius, 0, Math.PI*2);
+    ctx.fillStyle = threadOption3;
+    ctx.fill();
+    ctx.closePath();
   }
 
   //rendering
@@ -169,12 +243,16 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawRip();
     drawStitches();
+    drawColourOption1();
+    drawColourOption2();
+    drawColourOption3();
     drawNeedle();
     if (stitchVisible === true || stitchVisible === undefined) {
-    drawThread();
+      drawThread();
     }
     if (stitchVisible === true || stitchVisible === false) {
       drawSewingIndicator();
+      drawUndoInfo();
     }
     window.requestAnimationFrame(draw);
   }
