@@ -29,12 +29,14 @@
   
   //determines whether or not to draw a new stitch
   let makeStitch;
+   //thread action
+   const stitches = [];
+    let stitchObj = {};
 
   let threadColour = "#4ecf8c";
 
   //needle rotation
   document.addEventListener("keydown", keyDownHandler, false);
-  // document.addEventListener("keyup", keyUpHandler, false);
 
   function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
@@ -53,7 +55,14 @@
       needleOrientation = "south";
       needleWidth = -7;
       needleHeight = -60;
+    //stitch undo
+    } else if (e.key == "Backspace") {
+      stitches.pop();
+    //stop sewing
+    } else if (e.key == "Spacebar" || e.key == " ") {
+      makeStitch = undefined
     }
+
   }
 
   //needle movement
@@ -85,30 +94,30 @@
         stitchObj.h = relativeY - stitchObj.y;
         stitchObj.w = needleWidth;
         stitches.push(stitchObj);
-        console.log("stitches =", stitches)
         stitchObj = {};
         makeStitch = false;
       }
     }
   }
 
-  //thread action
-  const stitches = [];
-  let stitchObj = {};
-
   //shapes 
   function drawRip() {
     ctx.beginPath();
     ctx.rect(200, 200, 70, 80);
-    ctx.fillStyle = "#403e3f";
+    ctx.fillStyle = "#c7adba";
     ctx.fill();
     ctx.closePath();
   }
 
   function drawNeedle() {
     ctx.beginPath();
+    if (makeStitch === false) {
+      ctx.rect(needleX, needleY, needleWidth, 7);
+      ctx.fillStyle = "#fcba03";
+    } else {
     ctx.rect(needleX, needleY, needleWidth, needleHeight);
     ctx.fillStyle = "#696868";
+    }
     ctx.fill();
     ctx.closePath();
   }
@@ -146,7 +155,9 @@
     drawRip();
     drawStitches();
     drawNeedle();
+    if (makeStitch === true || makeStitch === undefined) {
     drawThread();
+    }
   }
   let interval = setInterval(draw, 9);
   draw();
