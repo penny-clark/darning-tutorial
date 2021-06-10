@@ -117,11 +117,15 @@
   function drawNeedle() {
     ctx.beginPath();
     if (stitchVisible === false) {
-      ctx.rect(needleX, needleY, needleWidth, 7);
+      if (needleOrientation === "north" || needleOrientation === "south") {
+        ctx.rect(needleX, needleY, needleWidth, 7);
+      } else {
+        ctx.rect(needleX, needleY, needleHeight, 7)
+      }
       ctx.fillStyle = "#fcba03";
     } else {
-    ctx.rect(needleX, needleY, needleWidth, needleHeight);
-    ctx.fillStyle = "#696868";
+      ctx.rect(needleX, needleY, needleWidth, needleHeight);
+      ctx.fillStyle = "#696868";
     }
     ctx.fill();
     ctx.closePath();
