@@ -26,7 +26,11 @@
   let needleWidth = 7;
   let needleHeight = 60;
   let needleOrientation = "north";
+  
+  //determines whether or not to draw a new stitch
   let makeStitch;
+
+  let threadColour = "#4ecf8c";
 
   //needle rotation
   document.addEventListener("keydown", keyDownHandler, false);
@@ -73,16 +77,24 @@
     if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
       if (makeStitch === undefined) {
         makeStitch = false;
-        console.log("makeStitch =", makeStitch)
       } else if (makeStitch === false) {
+        stitchObj.x = relativeX;
+        stitchObj.y = relativeY;
         makeStitch = true;
-        console.log("makeStitch =", makeStitch)
       } else if (makeStitch === true) {
+        stitchObj.h = relativeY - stitchObj.y;
+        stitchObj.w = needleWidth;
+        stitches.push(stitchObj);
+        console.log("stitches =", stitches)
+        stitchObj = {};
         makeStitch = false;
-        console.log("makeStitch =", makeStitch)
       }
     }
   }
+
+  //thread action
+  const stitches = [];
+  let stitchObj = {};
 
   //shapes 
   function drawRip() {
@@ -109,16 +121,30 @@
       ctx.rect(needleX + needleWidth, needleY, needleHeight * 2, needleHeight);
       
     }
-    ctx.fillStyle = "#4ecf8c";
+    ctx.fillStyle = threadColour;
     ctx.fill();
     ctx.closePath();
+  }
 
+  function drawStitch(stitch) {
+    ctx.beginPath();
+    ctx.rect(stitch.x, stitch.y, stitch.w, stitch.h);
+    ctx.fillStyle = threadColour;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function drawStitches() {
+    stitches.forEach(item => {
+      drawStitch(item)
+    })
   }
 
   //rendering
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawRip();
+    drawStitches();
     drawNeedle();
     drawThread();
   }
