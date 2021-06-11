@@ -52,7 +52,7 @@
     if(e.key == "Right" || e.key == "ArrowRight") {
       needleOrientation = "east";
       needleWidth = -60;
-      needleHeight = -7; 
+      needleHeight = 7; 
     } else if (e.key == "Left" || e.key == "ArrowLeft") {
       needleOrientation = "west"; 
       needleWidth = 60;
@@ -63,7 +63,7 @@
       needleHeight = 60;
     } else if (e.key == "Down" || e.key == "ArrowDown") {
       needleOrientation = "south";
-      needleWidth = -7;
+      needleWidth = 7;
       needleHeight = -60;
     //stitch undo
     } else if (e.key == "Backspace") {
@@ -128,12 +128,15 @@
         if (needleOrientation === "south" || needleOrientation === "north") {
           stitchObj.h = relativeY - stitchObj.y;
           stitchObj.w = needleWidth;
+          stitchObj.colour = currentThreadColour;
         } else if (needleOrientation === "east" || needleOrientation === "west") {
           stitchObj.h = needleHeight;
           stitchObj.w = relativeX - stitchObj.x;
+          stitchObj.colour = currentThreadColour;
         }
         stitches.push(stitchObj);
         stitchObj = {};
+        console.log("stitches =", stitches)
         stitchVisible = false;
       }
     }
@@ -143,7 +146,7 @@
   function drawRip() {
     ctx.beginPath();
     ctx.rect(155, 165, 90, 80);
-    ctx.fillStyle = "#c7adba";
+    ctx.fillStyle = "#cdd1ce";
     ctx.fill();
     ctx.closePath();
   }
@@ -155,9 +158,9 @@
       if (needleOrientation === "north") {
         ctx.rect(needleX, needleY, needleWidth, 7);
       } else if (needleOrientation === "south") {
-        ctx.rect(needleX, needleY, needleWidth, -7);
+        ctx.rect(needleX, needleY, needleWidth, 7);
       } else if (needleOrientation === "east") {
-        ctx.rect(needleX, needleY, -7, needleHeight)
+        ctx.rect(needleX, needleY, 7, needleHeight)
       } else if (needleOrientation === "west") {
         ctx.rect(needleX, needleY, 7, needleHeight)
       }
@@ -187,7 +190,7 @@
   function drawStitch(stitch) {
     ctx.beginPath();
     ctx.rect(stitch.x, stitch.y, stitch.w, stitch.h);
-    ctx.fillStyle = currentThreadColour;
+    ctx.fillStyle = stitch.colour;
     ctx.fill();
     ctx.closePath();
   }
