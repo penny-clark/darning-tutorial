@@ -71,7 +71,7 @@
     //stop sewing
     } else if (e.key == "Spacebar" || e.key == " ") {
       stitchVisible = undefined
-    //change thread colour by key
+    //change thread colour by key press
     } else if (e.key == "Enter") {
       if (currentThreadColour === threadOption1) {
         currentThreadColour = threadOption2
@@ -174,11 +174,16 @@
     ctx.closePath();
   }
 
+  //west and north are good
   function drawThread() {
     ctx.beginPath();
-    if (needleOrientation === "north" || needleOrientation === "south") {
+    if (needleOrientation === "north") {
       ctx.rect(needleX, needleY + needleHeight, needleWidth, needleWidth *2);
-    } else {
+    } else if (needleOrientation === "south") {
+      ctx.rect(needleX, needleY + needleHeight, needleWidth, -needleWidth *2);
+    } else if (needleOrientation === "east") { 
+      ctx.rect(needleX + needleWidth, needleY, -needleHeight * 2, needleHeight);
+    } else if (needleOrientation === "west") {
       ctx.rect(needleX + needleWidth, needleY, needleHeight * 2, needleHeight);
       
     }
@@ -259,8 +264,6 @@
     }
     window.requestAnimationFrame(draw);
   }
-  // let interval = setInterval(draw, 9);
-  // draw();
   window.requestAnimationFrame(draw);
 </script>
 <br>
