@@ -186,6 +186,9 @@
     } else if (needleOrientation === "east") {
       ctx.lineTo(needleX + 9, needleY + needleHeight / 2);
       ctx.lineTo(needleX, needleY + needleHeight);
+    } else if (needleOrientation === "west") {
+      ctx.lineTo(needleX - 9, needleY + needleHeight / 2);
+      ctx.lineTo(needleX, needleY + needleHeight);
     }
     ctx.fillStyle = "#696868";
     ctx.fill();
