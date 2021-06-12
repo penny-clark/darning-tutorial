@@ -190,7 +190,12 @@
       ctx.lineTo(needleX - 9, needleY + needleHeight / 2);
       ctx.lineTo(needleX, needleY + needleHeight);
     }
+
+    if (stitchVisible === false) {
+      ctx.fillStyle = "#fcba03";
+    } else {
     ctx.fillStyle = "#696868";
+    }
     ctx.fill();
     ctx.closePath();
 
