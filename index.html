@@ -145,7 +145,7 @@
   //shapes 
   function drawRip() {
     ctx.beginPath();
-    ctx.rect(155, 165, 90, 80);
+    ctx.rect(155, 140, 100, 120);
     ctx.fillStyle = "#cdd1ce";
     ctx.fill();
     ctx.closePath();
@@ -174,7 +174,17 @@
     ctx.closePath();
   }
 
-  //west and north are good
+  function drawNeedleTip() {
+    ctx.beginPath();
+    ctx.moveTo(needleX, needleY);
+    ctx.lineTo(needleX + needleWidth / 2, needleY - 7);
+    ctx.lineTo(needleX + needleWidth, needleY);
+    ctx.fillStyle = "#696868";
+    ctx.fill();
+    ctx.closePath();
+
+  }
+
   function drawThread() {
     ctx.beginPath();
     if (needleOrientation === "north") {
@@ -255,6 +265,7 @@
     drawColourOption2();
     drawColourOption3();
     drawNeedle();
+    drawNeedleTip();
     if (stitchVisible === true || stitchVisible === undefined) {
       drawThread();
     }
