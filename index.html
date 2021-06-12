@@ -177,8 +177,13 @@
   function drawNeedleTip() {
     ctx.beginPath();
     ctx.moveTo(needleX, needleY);
-    ctx.lineTo(needleX + needleWidth / 2, needleY - 7);
-    ctx.lineTo(needleX + needleWidth, needleY);
+    if (needleOrientation === "north") {
+      ctx.lineTo(needleX + needleWidth / 2, needleY - 9);
+      ctx.lineTo(needleX + needleWidth, needleY);
+    } else if (needleOrientation === "south") {
+      ctx.lineTo(needleX + needleWidth / 2, needleY + 9);
+      ctx.lineTo(needleX + needleWidth, needleY);
+    }
     ctx.fillStyle = "#696868";
     ctx.fill();
     ctx.closePath();
