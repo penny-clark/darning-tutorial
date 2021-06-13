@@ -26,6 +26,8 @@
   let needleWidth = 7;
   let needleHeight = 60;
   let needleOrientation = "north";
+  let relX;
+  let relY;
   
   //determines whether or not to draw a new stitch
   let stitchVisible;
@@ -98,12 +100,15 @@
 
   //sewing action
   document.addEventListener('mousedown', clickActions);
+  //considering an overhaul to sewing mechanism where needle will come up through the cloth on mouse up instead of needing a second click
+  //might make stitch control eaiser/more intuitive
+  // document.addEventListener('mousedown', clickActions);
 
   function clickActions(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
     let relativeY = e.clientY - canvas.offsetLeft;
     
-    //mouse click thread colour choosing
+    //thread colour controls
     if ((relativeX > 0 && relativeX < colourOptPosX + colourOptRadius) && (relativeY > colourOpt1Y - colourOptRadius && relativeY < colourOpt3Y + colourOptRadius)) {
       if ((relativeY >= colourOpt1Y - colourOptRadius) && (relativeY <= colourOpt1Y + colourOptRadius)) {
         stitchVisible = undefined;
@@ -116,7 +121,7 @@
         currentThreadColour = threadOption3;
       }
 
-    //sewing click controls
+    //sewing controls
     } else if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 + needleHeight && relativeY < canvas.height)) {
       if (stitchVisible === undefined) {
         stitchVisible = false;
@@ -218,6 +223,26 @@
     ctx.closePath();
   }
 
+  // draws path of the stitch in progress, for user friendliness
+  function drawActiveStitch() {
+    let height;
+    let width;
+    if (needleOrientation === "north" || needleOrientation === "south") {
+      if (needleOrientation === "south" || needleOrientation === "north") {
+        height = needleY - stitchObj.y;
+        width = needleWidth;
+      } else if (needleOrientation === "east" || needleOrientation === "west") {
+        height = needleHeight;
+        width = needleX - stitchObj.x;
+      } 
+    }
+    ctx.beginPath();
+    ctx.rect(stitchObj.x, stitchObj.y, width, height);
+    ctx.fillStyle = currentThreadColour;
+    ctx.fill();
+    ctx.closePath();
+  }
+
   function drawStitch(stitch) {
     ctx.beginPath();
     ctx.rect(stitch.x, stitch.y, stitch.w, stitch.h);
@@ -288,6 +313,9 @@
     if (stitchVisible === true || stitchVisible === false) {
       drawSewingIndicator();
       drawUndoInfo();
+    }
+    if (stitchVisible === true) {
+      drawActiveStitch();
     }
     window.requestAnimationFrame(draw);
   }
