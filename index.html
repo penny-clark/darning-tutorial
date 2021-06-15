@@ -100,9 +100,7 @@
 
   //sewing action
   document.addEventListener('mousedown', clickActions);
-  //considering an overhaul to sewing mechanism where needle will come up through the cloth on mouse up instead of needing a second click
-  //might make stitch control eaiser/more intuitive
-  // document.addEventListener('mousedown', clickActions);
+  
 
   function clickActions(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
@@ -141,11 +139,23 @@
         }
         stitches.push(stitchObj);
         stitchObj = {};
-        console.log("stitches =", stitches)
         stitchVisible = false;
       }
     }
   }
+
+  // experimented with this handling for the desktop, but it's a little sticky. 
+  // keeping this code though because I think this will be better for mobile
+
+  // function clickRelease(e) {
+  //   let relativeX = e.clientX - canvas.offsetLeft;
+  //   let relativeY = e.clientY - canvas.offsetLeft;
+  //   if (stitchVisible === false) {
+  //     stitchObj.x = relativeX;
+  //     stitchObj.y = relativeY;
+  //     stitchVisible = true;
+  //   }
+  // }
 
   //shapes 
   function drawRip() {
@@ -188,6 +198,7 @@
     } else if (needleOrientation === "south") {
       ctx.lineTo(needleX + needleWidth / 2, needleY + 9);
       ctx.lineTo(needleX + needleWidth, needleY);
+      //////NOTE TO FIX: pointer misaligned on east and south orientations (obvious in under cloth view)
     } else if (needleOrientation === "east") {
       ctx.lineTo(needleX + 9, needleY + needleHeight / 2);
       ctx.lineTo(needleX, needleY + needleHeight);
