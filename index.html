@@ -177,9 +177,9 @@
       if (needleOrientation === "north") {
         ctx.rect(needleX, needleY, needleWidth, 7);
       } else if (needleOrientation === "south") {
-        ctx.rect(needleX, needleY, needleWidth, 7);
+        ctx.rect(needleX, needleY, needleWidth, -7);
       } else if (needleOrientation === "east") {
-        ctx.rect(needleX, needleY, 7, needleHeight)
+        ctx.rect(needleX, needleY, -7, needleHeight)
       } else if (needleOrientation === "west") {
         ctx.rect(needleX, needleY, 7, needleHeight)
       }
@@ -202,7 +202,6 @@
     } else if (needleOrientation === "south") {
       ctx.lineTo(needleX + needleWidth / 2, needleY + 9);
       ctx.lineTo(needleX + needleWidth, needleY);
-      //////NOTE TO FIX: pointer misaligned on east and south orientations (obvious in under cloth view)
     } else if (needleOrientation === "east") {
       ctx.lineTo(needleX + 9, needleY + needleHeight / 2);
       ctx.lineTo(needleX, needleY + needleHeight);
