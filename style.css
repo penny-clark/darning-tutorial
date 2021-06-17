@@ -27,6 +27,16 @@ p {
   padding-bottom: 5px;
 }
 
+.arrow {
+  display: flex;
+  align-self: center;
+  transition: transform 250ms;
+}
+
+.arrow:hover {
+  transform: translateY(10px);
+}
+
 .items-container { 
   display: flex; 
   justify-content: space-between;
@@ -34,7 +44,9 @@ p {
 }
 
 .text-container {
-  width: 45%; 
+  width: 45%;
+  height: 400px; 
   padding-top: 0px;
   padding-left: 10px;
+  overflow: scroll;
 }
