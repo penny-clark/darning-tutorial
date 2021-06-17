@@ -241,15 +241,14 @@
   function drawActiveStitch() {
     let height;
     let width;
-    if (needleOrientation === "north" || needleOrientation === "south") {
-      if (needleOrientation === "south" || needleOrientation === "north") {
+    if (needleOrientation === "south" || needleOrientation === "north") {
         height = needleY - stitchObj.y;
         width = needleWidth;
-      } else if (needleOrientation === "east" || needleOrientation === "west") {
+    } else if (needleOrientation === "east" || needleOrientation === "west") {
         height = needleHeight;
         width = needleX - stitchObj.x;
-      } 
-    }
+    } 
+    
     ctx.beginPath();
     ctx.rect(stitchObj.x, stitchObj.y, width, height);
     ctx.fillStyle = currentThreadColour;
