@@ -27,9 +27,11 @@ p {
   padding-bottom: 5px;
 }
 
+/* reference for button effect, thanks to: https://www.joshwcomeau.com/animation/css-transitions/ */
 .arrow {
   display: flex;
   align-self: center;
+  border-radius: 50%;
   transition: transform 250ms;
 }
 
@@ -49,4 +51,9 @@ p {
   padding-top: 0px;
   padding-left: 10px;
   overflow: scroll;
+}
+
+.instruction {
+  height: 400px;
+
 }
