@@ -1,4 +1,6 @@
-
+html {
+  width: 100vw;
+}
 body {
   background-color: #ffffff;
   display: flex; 
@@ -14,12 +16,18 @@ canvas {
 }
 
 header { 
-  font-family: 'Roboto', sans-serif;
-  font-size: 40px; 
-  display: flex; 
-  padding-bottom: 5px;
+  display: flex;
+  align-items: flex-start;
+  width: 100vw;
+  max-height: 120px;
   background-color: #f7d80a;
 }
+
+h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 40px; 
+}
+
 p { 
   font-family: "Arial"; 
   font-size: 12px; 
@@ -27,6 +35,7 @@ p {
   line-height: normal;
   padding-bottom: 5px;
 }
+
 
 /* reference for button effect, thanks to: https://www.joshwcomeau.com/animation/css-transitions/ */
 .arrow-down {
