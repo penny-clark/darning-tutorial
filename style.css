@@ -18,6 +18,7 @@ header {
   font-size: 40px; 
   display: flex; 
   padding-bottom: 5px;
+  background-color: #f7d80a;
 }
 p { 
   font-family: "Arial"; 
@@ -28,14 +29,13 @@ p {
 }
 
 /* reference for button effect, thanks to: https://www.joshwcomeau.com/animation/css-transitions/ */
-.arrow {
+.arrow-down {
   display: flex;
-  align-self: center;
   border-radius: 50%;
   transition: transform 250ms;
 }
 
-.arrow:hover {
+.arrow-down:hover {
   transform: translateY(10px);
 }
 
@@ -55,5 +55,10 @@ p {
 
 .instruction {
   height: 400px;
+}
 
+.container-label {
+  display: flex;
+  flex-direction: column;
+  transform: rotate(180deg);
 }
