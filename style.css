@@ -1,6 +1,4 @@
-html {
-  width: 100vw;
-}
+
 body {
   background-color: #ffffff;
   display: flex; 
@@ -19,13 +17,17 @@ header {
   display: flex;
   align-items: flex-start;
   width: 100vw;
+  margin-left: calc(-50vw + 50%);
   max-height: 120px;
   background-color: #f7d80a;
+  margin-top: 15px;
+  margin-bottom: 25px;
 }
 
 h1 {
   font-family: 'Roboto', sans-serif;
   font-size: 40px; 
+  margin-left: 10px;
 }
 
 p { 
@@ -69,5 +71,26 @@ p {
 .container-label {
   display: flex;
   flex-direction: column;
-  transform: rotate(180deg);
+  transform: rotate(180deg); 
 }
+
+.desktop-label {
+  writing-mode: vertical-rl; 
+  text-orientation:sideways-right;
+}
+
+/* desktop design */
+@media only screen and (max-width: 924px) {
+  .items-container { 
+    display: flex; 
+    justify-content: space-between;
+    flex-direction: column-reverse;
+  }
+  .container-label {
+    transform: none; 
+  }
+  .desktop-label {
+    writing-mode: none; 
+    text-orientation: none;
+  }
+ }
