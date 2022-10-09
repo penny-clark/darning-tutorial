@@ -14,25 +14,38 @@
 <body>
 <div class="items-container">
   <div class="container-label">
-    <h1 class="desktop-label">Canvas</header>
+    <h1 class="desktop-label">Canvas</h1>
   </div>
   <canvas id="myCanvas" width="400" height="400"></canvas>
+  <div>
+    <button type="button" id="deleteStitch">Undo Stitch</button>
+    <button type="button" id="resetStitches">Reset</button>
+    <button type="button" id="stopSewing">Stop Sewing</button>
+    <p>Needle Direction</p>
+    <button type="button" id="directNorth">North</button>
+    <button type="button" id="directEast">East</button>
+    <button type="button" id="directSouth">South</button>
+    <button type="button" id="directWest">West</button>
+  </div>
   <div class="container-label">
-    <h1 class="desktop-label">Instructions</header>
+    <h1 class="desktop-label">Instructions</1>
   </div>
   <div class="text-container">
     <div class="instruction">
-    <p>If you know how to darn, you can fix your favourite socks instead of putting them in the garbage, and that makes you feel like one million dollars.</p>
-    <p>To darn in real life, you need to have a darning needle and embroidery thread, yarn, or sashiko thread. </p>
-    <p>You also need to put something under the fabric for structural integrity (and stop yourself from sewing it to the fabric on the other side!). If the fabric you are fixing lies pretty flat (like the front of a shirt), you can just put a piece of paper under it while you work (a postcard or whatever). If the fabric will curve (a sock, for example), you need a slighty rounded surface, like a lightbulb or darning egg/mushroom. This will stop your weave from being too tight and uncomfortable</p>
-    <p>But you don't need any supplies to practice on this page! You just need to click click click!</p>
+    <p>If you know how to darn, you can fix your favourite socks instead of putting them in the garbage, and that makes you feel like One Million Dollars.</p>
+    <p>To darn in real life, you need to have a darning needle and yarn, embroidery thread, or sashiko thread (use thre threads for tight factory knits, like socks. Use thicker yarn for chunkier knits, like wool sweaters. Do your best to match the fabirc, within reason). </p>
+    <p>You also need to put something under the fabric for structural integrity (and stop yourself from sewing it to the fabric on the other side). 
+      If the fabric you are fixing lies pretty flat (like the front of a shirt), you can just put a piece of cardstock under it while you work (a postcard or whatever). 
+      If the fabric needs to curve when you wear it (a sock, for example), you need a rounded surface under the fabric, like a lightbulb or darning egg/mushroom. 
+      This will stop your weave from being too tight and uncomfortable</p>
+    <p>BUT you don't need any supplies to practice on this page! You just need to click click click!</p>
     <p> Let's start!</p>
     <a href="#step1"><button class="arrow-down"> &#11015 </button></a>
     </div>
     <!-- next step -->
     <div id="step1">
     <div class="instruction">
-    <p>First, let's get used to the tools. The canvas shows a piece of fabric with a rip in the middle.</p>
+    <p>First, let's get used to the tools. The canvas on the left shows a piece of fabric with a rip in the middle ( use your imagination :-) ).</p>
     <p>When your put your mouse over the canvas, you can control the needle</p>
     <p>The current thread colour is shown on the bottom of your needle. If you want to change it, click on one of the colours on the left with your needle tip, or press the enter key</p>
     <p>Use the arrow keys to change the direction of the needle.</p>
@@ -45,9 +58,22 @@
       <div class="instruction">
         <p>Try clicking or tapping with the needle.</p>
         <p>The yellow triangle shows that your needle is under the fabric.</p>
-        <p>Click where you want to bring the needle back to the surface</p>
+        <p>Move the mouse/your finger and click where you want to bring the needle back to the surface</p>
         <p>Now when you move your needle forward, you'll see that your thread is making a stitch!</p>
         <p>Push the needle back through the fabric where you want to end the stitch</p>
+        <p>You can stop sewing by undoing a stitch of reseting your work. Normally
+          you'll have a long piece of string and won't stop sewing until it's time to switch directions, so try to stick to that here.
+        </p>
+        <p>Okay, let's reset our canvas and learn the darning stiches.</p>
+        <a href="#step3"><button class="arrow-down"> &#11015 </button></a>
+      </div>
+    </div>
+    <div id="step3">
+      <div class="instruction">
+        <p>Start with your needle aiming north (away from you, if this was a 3D stituation).</p>
+        <p>We need to first make some anchoring stitches. Start sewing on the fabric a little to the left of the hole, and a little below where the hole starts. Make a bunch of small stitches all the way up, a bit past where the hole ends.</p>
+        <p>Now turn your needle east and make one small stitch to move closer to the hole</p>
+        <p>Now turn your needles south and make a bunch of small anchoring stiches all the way down to slightly past the hole.</p>
       </div>
     </div>
   </div>
@@ -73,9 +99,9 @@
   let stitchObj = {};
 
   //thread colour panel vars
-  let threadOption1 = "#4ecf8c";
-  let threadOption2 = "#4570bf";
-  let threadOption3 = "#ff2b5a";
+  const threadOption1 = "#4ecf8c";
+  const threadOption2 = "#4570bf";
+  const threadOption3 = "#ff2b5a";
   let currentThreadColour = threadOption1;
   const colourOptPosX = 15;
   const colourOpt1Y = 60;
@@ -83,32 +109,33 @@
   const colourOpt3Y = 110;
   const colourOptRadius = 10;
   
-  //needle rotation
-  document.addEventListener("keydown", keyDownHandler, false);
+  //button functions 
+  deleteStitch.addEventListener('click', undoStitch, false);
+  resetStitches.addEventListener('click', resetCanvas, false);
+  stopSewing.addEventListener('click', stopSewingFunc, false);
+  directNorth.addEventListener('click', needleNorth, false);
+  directEast.addEventListener('click', needleEast, false);
+  directSouth.addEventListener('click', needleSouth, false);
+  directWest.addEventListener('click', needleWest, false);
 
+  //Keyboard commands
+  document.addEventListener("keydown", keyDownHandler, false);
   function keyDownHandler(e) {
+    //needle rotation
     if(e.key == "Right" || e.key == "ArrowRight") {
-      needleOrientation = "east";
-      needleWidth = -60;
-      needleHeight = 7; 
+      needleEast();
     } else if (e.key == "Left" || e.key == "ArrowLeft") {
-      needleOrientation = "west"; 
-      needleWidth = 60;
-      needleHeight = 7;
+      needleWest();
     } else if (e.key == "Up" || e.key == "ArrowUp") {
-      needleOrientation = "north";
-      needleWidth = 7;
-      needleHeight = 60;
+      needleNorth();
     } else if (e.key == "Down" || e.key == "ArrowDown") {
-      needleOrientation = "south";
-      needleWidth = 7;
-      needleHeight = -60;
+      needleSouth();
     //stitch undo
     } else if (e.key == "Backspace") {
-      stitches.pop();
+      undoStitch();
     //stop sewing
     } else if (e.key == "Spacebar" || e.key == " ") {
-      stitchVisible = undefined
+      stopSewingFunc();
     //change thread colour by key press
     } else if (e.key == "Enter") {
       if (currentThreadColour === threadOption1) {
@@ -119,8 +146,45 @@
         currentThreadColour = threadOption1
       }
     }
-
   }
+
+  function undoStitch(){
+    stitches.pop();
+  }
+
+  function resetCanvas(){
+    stitches.splice(0, stitches.length)
+    stitchVisible = undefined;
+  }
+
+  function stopSewingFunc(){
+    stitchVisible = undefined;
+  }
+
+  function needleNorth(){
+    needleOrientation = "north";
+    needleWidth = 7;
+    needleHeight = 60;
+  }
+
+  function needleEast(){
+    needleOrientation = "east";
+    needleWidth = -60;
+    needleHeight = 7; 
+  }
+
+  function needleSouth(){
+    needleOrientation = "south";
+    needleWidth = 7;
+    needleHeight = -60;
+  }
+
+  function needleWest(){
+    needleOrientation = "west"; 
+    needleWidth = 60;
+    needleHeight = 7;
+  }
+
 
   //needle movement
   document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -128,15 +192,15 @@
   function mouseMoveHandler(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
     let relativeY = e.clientY - canvas.offsetLeft;
-    if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) && (relativeY > 0 && relativeY < canvas.height)) {
+    if ((relativeX > 0 + needleWidth /2 && relativeX < canvas.width) 
+    && (relativeY > 0 && relativeY < canvas.height)) {
       needleX = relativeX;
       needleY = relativeY;
     }
   }
 
-  //sewing action
+  //actions defined on canvas
   document.addEventListener('mousedown', clickActions);
-  
 
   function clickActions(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
@@ -269,7 +333,7 @@
     ctx.closePath();
   }
 
-  // draws path of the stitch in progress, for user friendliness
+  // draws path of the stitch in progress
   function drawActiveStitch() {
     let height;
     let width;
